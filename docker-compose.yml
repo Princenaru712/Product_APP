@@ -4,7 +4,7 @@ services:
   api_:
     image: product-api-service:latest
     build:
-      context: .
+      context: .         
       dockerfile: src/API_/Dockerfile  
     restart: on-failure
     ports:

@@ -9,7 +9,7 @@
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>api_</DockerServiceName>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup>   
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
