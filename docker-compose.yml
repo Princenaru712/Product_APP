@@ -1,0 +1,40 @@
+﻿version: '3.4'
+
+services:
+  api_:
+    image: product-api-service:latest
+    build:
+      context: .
+      dockerfile: src/API_/Dockerfile  
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Sqlcon=Server=sqlserver,1433;Database=CRN_DATABASE_NEW;User Id=sa;Password=Pass@123;TrustServerCertificate=True;Encrypt=False
+      - Jwt__Key=SuperSecretKeyLongerThanThirtyTwoBytes
+      - Jwt__Issuer=ProductApiIssuer
+      - Jwt__Audience=ProductApiAudience
+    networks:
+      - product-app-network
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1999:1433"
+    environment:
+      - ACCEPT_EULA=Y  
+      - MSSQL_SA_PASSWORD=Pass@123
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - product-app-network
+
+networks:
+  product-app-network:
+    driver: bridge
+
+volumes:
+  mssql_data:
